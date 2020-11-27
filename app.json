@@ -1,0 +1,12 @@
+{
+  "name": "discount",
+  "displayName": "discount",
+  "expo": {
+    "name": "discount",
+    "slug": "discount",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
