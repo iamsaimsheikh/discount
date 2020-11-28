@@ -2,13 +2,15 @@ import { preventAutoHide } from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {useEffect, ReactDOM} from 'react';
-import { StyleSheet, Text, View,TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [original, setOriginal] = React.useState('0');
   const [discount, setDiscount] = React.useState('0');
   const [discountRate, setDiscountRate] = React.useState('0');
-
+  var orignalPrice=[]
+  var rate=[]
+  var finalPrice=[]
 
  function finalVal(val){
   return val
@@ -65,8 +67,18 @@ export default function App() {
         keyboardType={'number-pad'}
         maxLength={3}
         />
-      </View> 
+      </View>
     </View>
+    <View style={{flex:0.1,alignItems:'flex-start'}}>
+      <TouchableOpacity onPress={ () =>{
+        orignalPrice.push(original)
+        rate.push(discount)
+        finalPrice.push(discountRate)
+      }
+      }>
+        <Text style={{width:150,height:50,color:'white',textAlign:'center',fontSize:30,borderColor:'white',borderWidth:1}}> Save </Text>
+        </TouchableOpacity>
+      </View> 
     </View>
   );
 }
@@ -81,8 +93,7 @@ const styles = StyleSheet.create({
   },
 
   headingView :{
-    flex:0.3,
-    marginTop:10,
+    flex:0.15,
     alignItems:'flex-end',
     justifyContent:'flex-end'
   },  
@@ -96,7 +107,7 @@ const styles = StyleSheet.create({
   },
 
   txtDiv:{
-    flex:0.4,
+    flex:0.15,
     alignItems: 'flex-start',
     justifyContent: "flex-end",
     flexDirection:'row'
