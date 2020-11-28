@@ -2,12 +2,13 @@ import { preventAutoHide } from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {useEffect, ReactDOM} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity , Modal, TouchableHighlight } from 'react-native';
 
 export default function App() {
   const [original, setOriginal] = React.useState('0');
   const [discount, setDiscount] = React.useState('0');
   const [discountRate, setDiscountRate] = React.useState('0');
+  const [modalVisible, setModalVisible] = React.useState(false);
   var orignalPrice=[]
   var rate=[]
   var finalPrice=[]
@@ -20,6 +21,32 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+      <Text style={styles.modalText}>{orignalPrice.map((item,i)=>{
+        return (<Text> {item} </Text>)
+      })}</Text>
+
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.headingView}>
       <Text style={styles.heading}>DISCOUNT</Text>
       </View>
@@ -69,16 +96,29 @@ export default function App() {
         />
       </View>
     </View>
-    <View style={{flex:0.1,alignItems:'flex-start'}}>
-      <TouchableOpacity onPress={ () =>{
+
+        <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-end',width:320}}>
+    <View style={{flex:0.1}}>
+      <TouchableOpacity style={{width:130,marginLeft:10}} onPress={ () =>{
         orignalPrice.push(original)
         rate.push(discount)
         finalPrice.push(discountRate)
       }
       }>
-        <Text style={{width:150,height:50,color:'white',textAlign:'center',fontSize:30,borderColor:'white',borderWidth:1}}> Save </Text>
+        <Text style={{width:130,height:40,color:'white',textAlign:'center',fontSize:26,borderColor:'white',borderWidth:1}}> Save </Text>
         </TouchableOpacity>
-      </View> 
+      </View>
+
+      <View style={{flex:0.1}}>
+      <TouchableOpacity style={{width:130,marginLeft:150}} onPress={ () =>{
+        setModalVisible(true)
+      }
+      }>
+        <Text style={{width:130,height:40,color:'white',textAlign:'center',fontSize:26,borderColor:'white',borderWidth:1}}> History </Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+       
     </View>
   );
 }
@@ -95,13 +135,15 @@ const styles = StyleSheet.create({
   headingView :{
     flex:0.15,
     alignItems:'flex-end',
-    justifyContent:'flex-end'
+    justifyContent:'flex-end',
+
   },  
 
   heading:{
     marginLeft: "auto",
     marginRight:"auto",
     padding:20,
+    paddingRight:10,
     fontSize:30,
     color:"white"
   },
@@ -125,5 +167,43 @@ const styles = StyleSheet.create({
 
   discountDiv:{
     flex:0.1
-  }
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+
 });
