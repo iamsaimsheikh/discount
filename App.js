@@ -1,33 +1,60 @@
 import { preventAutoHide } from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import {useEffect, ReactDOM} from 'react';
 import { StyleSheet, Text, View,TextInput } from 'react-native';
 
 export default function App() {
-  const [original, nextOriginal] = React.useState('Original');
-  const [discount, nextDiscount] = React.useState('Discount %');
+  const [original, setOriginal] = React.useState('0');
+  const [discount, setDiscount] = React.useState('0');
+  const [discountRate, setDiscountRate] = React.useState('0');
+  var discountPrice='0';
 
+
+
+    
 
   return (
     <View style={styles.container}>
       <View style={styles.headingView}>
       <Text style={styles.heading}>DISCOUNT</Text>
       </View>
-    <View style={styles.txtDiv}>
-
-      <TextInput
-      style={styles.txtInput}
-      onChangeText={text => nextOriginal(text)}
-      value={original}
-      keyboardType={'number-pad'}
-    />
-      <TextInput
-      style={styles.txtInput}
-      onChangeText={text => nextDiscount(text)}
-      value={discount}
-      keyboardType={'number-pad'}
       
-    />
+      <View style={styles.discountDiv}>
+      <Text nativeID='discountRate' style={{color:'white', fontSize:36}}> {discountRate} </Text>
+      </View>  
+
+    <View style={styles.txtDiv}>
+      <View style={{justifyContent: 'center' }}>
+        <Text style={{ fontSize: 15, color: 'white', paddingLeft: 10 }}>
+          Original Price
+        </Text>
+
+        <TextInput
+        style={styles.txtInput}
+        onChangeText={text => {setOriginal(text)
+          setDiscountRate((parseInt(original) * parseInt(discount) )/100);
+          setDiscountRate((parseInt(original) * parseInt(discount) )/100);
+        }}
+        value={original}
+        keyboardType={'number-pad'}
+        />
+      </View> 
+      <View style={{justifyContent: 'center' }}>
+        <Text style={{ fontSize: 15, color: 'white', paddingLeft: 10 }}>
+          Discount %
+        </Text>
+
+        <TextInput
+        style={styles.txtInput}
+        onChangeText={text => {setDiscount(text)
+           setDiscountRate((parseInt(original) * parseInt(discount) )/100);
+           setDiscountRate((parseInt(original) * parseInt(discount) )/100);
+        }}
+        value={discount}
+        keyboardType={'number-pad'}
+        />
+      </View> 
     </View>
     </View>
   );
@@ -58,7 +85,7 @@ const styles = StyleSheet.create({
   },
 
   txtDiv:{
-    flex:0.5,
+    flex:0.4,
     alignItems: 'flex-start',
     justifyContent: "flex-end",
     flexDirection:'row'
@@ -72,5 +99,9 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     margin:10,
     textAlign:'center'
+  },
+
+  discountDiv:{
+    flex:0.1
   }
 });
