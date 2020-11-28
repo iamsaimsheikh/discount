@@ -8,9 +8,11 @@ export default function App() {
   const [original, setOriginal] = React.useState('0');
   const [discount, setDiscount] = React.useState('0');
   const [discountRate, setDiscountRate] = React.useState('0');
-  var discountPrice='0';
 
 
+ function finalVal(val){
+  return val
+ }
 
     
 
@@ -21,7 +23,9 @@ export default function App() {
       </View>
       
       <View style={styles.discountDiv}>
-      <Text nativeID='discountRate' style={{color:'white', fontSize:36}}> {discountRate} </Text>
+        
+   <Text nativeID='discountRate' style={{color:'white', fontSize:36}}> {finalVal(discountRate)} </Text>
+
       </View>  
 
     <View style={styles.txtDiv}>
@@ -47,12 +51,19 @@ export default function App() {
 
         <TextInput
         style={styles.txtInput}
-        onChangeText={text => {setDiscount(text)
+        onChangeText={text => {
+          if(parseInt(discount) > 100 || parseInt(discount) < 0){
+            setDiscount('0')
+          } 
+          else{
+           setDiscount(text)
            setDiscountRate((parseInt(original) * parseInt(discount) )/100);
            setDiscountRate((parseInt(original) * parseInt(discount) )/100);
+        }
         }}
         value={discount}
         keyboardType={'number-pad'}
+        maxLength={3}
         />
       </View> 
     </View>
